@@ -12,7 +12,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="icon-circle mb-3" style="background: rgba(255,255,255,.18); color:#fff; width:64px; height:64px; font-size:1.7rem;">
                     <i class="bi bi-recycle"></i>
                 </div>
-                <h2 class="mt-1">Bank Sampah</h2>
+                <h2 class="mt-1">Bank Sampah Rofiq</h2>
                 <p class="mb-0" style="opacity:.9;">
                     Kelola setoran sampah, verifikasi, dan saldo
                     siswa &amp; guru dalam satu sistem yang rapi.
