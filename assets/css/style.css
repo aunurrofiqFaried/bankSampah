@@ -1,0 +1,335 @@
+/* =========================================================
+   DESIGN SYSTEM — Bank Sampah
+   Palet: hijau (aksi/positif, identik dengan lingkungan)
+          putih (bersih, ruang bernapas)
+   Font : Poppins (heading) + Inter (body) via Google Fonts
+   ========================================================= */
+
+:root {
+  --hijau-utama:   #16a34a;   /* tombol utama, aksen */
+  --hijau-tua:     #0f5132;   /* teks penting di atas putih */
+  --hijau-muda:    #d1fae5;   /* background lembut, badge */
+  --hijau-gradasi: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+  --putih:         #ffffff;
+  --abu-bg:        #f4faf6;   /* background halaman, bukan putih polos biar gak silau */
+  --abu-teks:      #475569;
+  --merah-error:   #dc2626;
+  --kuning-pending:#f59e0b;
+
+  --radius: 18px;
+  --shadow-soft: 0 8px 24px rgba(22, 163, 74, 0.10);
+  --shadow-hover: 0 12px 32px rgba(22, 163, 74, 0.18);
+  --navbar-height: 70px;
+
+  /* ---- Token khusus efek kaca (glassmorphism) ---- */
+  --glass-bg:      rgba(255, 255, 255, 0.55);
+  --glass-border:  rgba(255, 255, 255, 0.6);
+  --glass-blur:    18px;
+  --glass-shadow:  0 8px 32px rgba(16, 78, 45, 0.14);
+  --glow-hijau:    0 0 24px rgba(74, 222, 128, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--abu-bg);
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   BLOB DEKORATIF — lingkaran gradasi blur di belakang konten,
+   ini yang bikin kesan "futuristik" pada background putih polos.
+   Taruh <div class="bg-blobs">...</div> sekali di body, fixed,
+   di belakang semua konten (z-index -1).
+   ========================================================= */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-blobs span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+  animation: mengambang 14s ease-in-out infinite;
+}
+.bg-blobs span:nth-child(1) {
+  width: 380px; height: 380px;
+  background: #4ade80;
+  top: -120px; left: -100px;
+}
+.bg-blobs span:nth-child(2) {
+  width: 320px; height: 320px;
+  background: #16a34a;
+  bottom: -100px; right: -80px;
+  animation-delay: -6s;
+}
+.bg-blobs span:nth-child(3) {
+  width: 220px; height: 220px;
+  background: #86efac;
+  top: 40%; right: 15%;
+  animation-delay: -3s;
+}
+@keyframes mengambang {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(20px, -30px) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-blobs span { animation: none; }
+}
+
+h1, h2, h3, h4, h5, .brand-font {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+/* ---------- Navbar (kaca, bukan blok warna solid) ---------- */
+.navbar-banksampah {
+  background: rgba(22, 163, 74, 0.75);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  box-shadow: var(--shadow-soft);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+}
+.navbar-banksampah .container-fluid { height: 100%; align-items: center; }
+.navbar-banksampah .navbar-brand {
+  color: #fff !important;
+  font-size: 1.15rem;
+  letter-spacing: .2px;
+}
+.navbar-banksampah .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.navbar-banksampah .nav-link:hover {
+  color: var(--hijau-muda) !important;
+}
+
+/* ---------- Kartu Kaca (dipakai di hampir semua halaman) ----------
+   backdrop-filter: blur() adalah inti efek "kaca" — dia mem-blur apa
+   pun yang ada DI BELAKANG elemen ini (misalnya .bg-blobs di atas),
+   sementara background semi-transparan biar warnanya masih nembus. */
+.card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 1.75rem;
+}
+.card-glass:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover), var(--glow-hijau);
+}
+
+/* ---------- Kerangka halaman: jarak & lebar konsisten di semua halaman ---------- */
+.page-content {
+  padding: 2rem 2.25rem 3rem;
+}
+.page-header {
+  margin-bottom: 1.75rem;
+}
+.page-header h3 {
+  margin-bottom: .25rem;
+}
+.page-header p {
+  margin-bottom: 0;
+}
+
+/* ---------- Ikon bulat di dalam stat card, biar gak "ngambang" sendirian ---------- */
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--hijau-muda);
+  color: var(--hijau-tua);
+  flex-shrink: 0;
+}
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.stat-card .stat-body { min-width: 0; }
+.stat-card .stat-label {
+  font-size: .8rem;
+  color: var(--abu-teks);
+  margin-bottom: .15rem;
+}
+.stat-card .stat-value {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+/* ---------- Tabel di dalam card kaca ---------- */
+.table-glass thead th {
+  border-bottom: 1px solid rgba(15, 81, 50, 0.12);
+  font-weight: 600;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--abu-teks);
+  padding-bottom: .75rem;
+}
+.table-glass tbody td {
+  border-bottom: 1px solid rgba(15, 81, 50, 0.06);
+  padding-top: .85rem;
+  padding-bottom: .85rem;
+}
+.table-glass tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- Tombol ---------- */
+.btn-hijau {
+  background: var(--hijau-gradasi);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.6rem 1.4rem;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-hijau:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: var(--glow-hijau);
+  color: #fff;
+}
+.btn-outline-hijau {
+  border: 2px solid var(--hijau-utama);
+  color: var(--hijau-utama);
+  font-weight: 600;
+  border-radius: 10px;
+  background: transparent;
+}
+.btn-outline-hijau:hover {
+  background: var(--hijau-utama);
+  color: #fff;
+}
+
+/* ---------- Badge status (dipakai di step 4 nanti untuk verifikasi) ---------- */
+.badge-pending    { background: #fef3c7; color: #92400e; }
+.badge-sukses     { background: var(--hijau-muda); color: var(--hijau-tua); }
+.badge-ditolak    { background: #fee2e2; color: #991b1b; }
+
+/* ---------- Halaman login/register ----------
+   Background gradasi yang bergerak pelan (bukan statis) di belakang,
+   lalu kartu login-nya sendiri kaca transparan di atasnya — jadi ada
+   dua lapis kedalaman, bukan cuma satu blok warna datar. */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(-45deg, #0f5132, #16a34a, #22c55e, #4ade80);
+  background-size: 300% 300%;
+  animation: gradasiBergerak 12s ease infinite;
+}
+@keyframes gradasiBergerak {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-wrapper { animation: none; }
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+  max-width: 900px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.auth-card .brand-side {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.auth-card .form-side {
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.85);
+}
+.auth-card .form-side h4,
+.auth-card .form-side .text-muted {
+  color: #1e293b;
+}
+
+/* ---------- Input ---------- */
+.form-control:focus {
+  border-color: var(--hijau-utama);
+  box-shadow: 0 0 0 0.2rem rgba(22, 163, 74, 0.15);
+}
+
+/* ---------- Sidebar (dipakai di dashboard admin/siswa) ---------- */
+.sidebar-banksampah {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--glass-border);
+  min-height: calc(100vh - var(--navbar-height));
+  padding: 1.5rem 1rem !important;
+}
+.sidebar-banksampah .nav-label {
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--abu-teks);
+  opacity: .7;
+  padding: 0 .75rem;
+  margin-bottom: .5rem;
+}
+.sidebar-banksampah .nav-link {
+  color: var(--abu-teks);
+  border-radius: 10px;
+  margin-bottom: 4px;
+  padding: 0.65rem .9rem;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: .92rem;
+  transition: background .15s ease, color .15s ease;
+}
+.sidebar-banksampah .nav-link i { font-size: 1.05rem; width: 20px; text-align: center; }
+.sidebar-banksampah .nav-link.active,
+.sidebar-banksampah .nav-link:hover {
+  background: var(--hijau-muda);
+  color: var(--hijau-tua);
+  font-weight: 500;
+}
+.sidebar-banksampah .nav-link.disabled {
+  opacity: .55;
+}
